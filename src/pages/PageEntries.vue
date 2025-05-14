@@ -19,15 +19,22 @@
         {{ useCurrencify(balance) }}
       </div>
     </div>
-    <div class="row q-pa-sm q-col-gutter-md bg-primary">
+    <q-form @submit="addEntry" class="row q-pa-sm q-col-gutter-md bg-primary">
       <div class="col">
-        <q-input outlined bg-color="white" v-model="text" placeholder="Insert your name" dense />
+        <q-input
+          outlined
+          bg-color="white"
+          v-model="addEntryForm.name"
+          placeholder="Insert your name"
+          ref="nameRef"
+          dense
+        />
       </div>
       <div class="col">
         <q-input
           outlined
           bg-color="white"
-          v-model="text"
+          v-model.number="addEntryForm.amount"
           placeholder="Insert the amount"
           input-class="text-right"
           type="number"
@@ -35,13 +42,14 @@
           dense
         />
       </div>
-      <div class="col col-auto"><q-btn round color="secondary" icon="add" /></div>
-    </div>
+      <div class="col col-auto"><q-btn type="submit" round color="secondary" icon="add" /></div>
+    </q-form>
   </q-footer>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
+import { uid } from 'quasar'
 import { useCurrencify } from 'src/use/useCurrency.js'
 import { useAmountColorClass } from 'src/use/useAmountColorClass.js'
 
@@ -68,4 +76,30 @@ const balance = computed(() => {
     return accumulator + amount
   }, 0)
 })
+
+const nameRef = ref(null)
+const addEntryFormDefault = {
+  name: '',
+  amount: null,
+}
+
+const addEntryForm = reactive({
+  ...addEntryFormDefault,
+})
+
+const addEntryFormReset = () => {
+  Object.assign(addEntryForm, addEntryFormDefault)
+  nameRef.value.focus()
+}
+
+const addEntry = () => {
+  // const newEntry = {
+  //   id: uid(),
+  //   name: addEntryForm.name,
+  //   amount: addEntryForm.amount,
+  // }
+  const newEntry = Object.assign({}, addEntryForm, { id: uid() })
+  entries.value.push(newEntry)
+  addEntryFormReset()
+}
 </script>
