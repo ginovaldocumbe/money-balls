@@ -13,7 +13,14 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer class="bg-primary text-white" v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      :width="250"
+      :breakpoint="767"
+      class="bg-primary text-white"
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+    >
       <q-list>
         <q-item-label class="text-white" header> Navigations </q-item-label>
 
