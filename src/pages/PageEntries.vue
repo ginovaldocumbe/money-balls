@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-list bordered separator>
+    <q-list bordered separator v-if="entries.length > 0">
       <q-slide-item
         v-for="entry in entries"
         :key="entry.id"
@@ -21,6 +21,14 @@
         </q-item>
       </q-slide-item>
     </q-list>
+    <div v-else>
+      <q-banner class="bg-blue-1 rounded-borders">
+        <template v-slot:avatar>
+          <q-icon name="info" color="blue-9" />
+        </template>
+        You have no entries.
+      </q-banner>
+    </div>
   </div>
   <q-footer class="bg-transparent">
     <div class="row q-mb-sm q-px-md q-py-md shadow-up-3 text-grey-6 text-h5">
@@ -35,7 +43,7 @@
           outlined
           bg-color="white"
           v-model="addEntryForm.name"
-          placeholder="Insert your name"
+          placeholder="Insert the entry name"
           ref="nameRef"
           dense
         />
@@ -65,23 +73,7 @@ import { useAmountColorClass } from 'src/use/useAmountColorClass.js'
 
 const $q = useQuasar()
 
-const entries = ref([
-  {
-    id: 'id1',
-    name: 'Teste1',
-    amount: 2500,
-  },
-  {
-    id: 'id2',
-    name: 'Teste2',
-    amount: -500,
-  },
-  {
-    id: 'id3',
-    name: 'Teste3',
-    amount: -100,
-  },
-])
+const entries = ref([])
 
 const balance = computed(() => {
   return entries.value.reduce((accumulator, { amount }) => {
@@ -140,9 +132,9 @@ const deleteEntry = (entryId) => {
   const index = entries.value.findIndex((entry) => entry.id === entryId)
   entries.value.splice(index, 1)
   $q.notify({
-    message:'Entry deleted successfully.',
-    position:'top',
-    color:'green'
+    message: 'Entry deleted successfully.',
+    position: 'top',
+    color: 'green',
   })
 }
 </script>
