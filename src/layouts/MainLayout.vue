@@ -6,8 +6,8 @@
 
         <q-toolbar-title>
           <div class="absolute-center">
-            <q-icon name="savings" />
-            Pakite
+            <img src="/icons/favicon-32x32.png" alt="Logotipo" style="max-height:25px" />
+            <span class="text-weight-bold"> Pakite</span>
           </div>
         </q-toolbar-title>
       </q-toolbar>
